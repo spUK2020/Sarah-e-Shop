@@ -1,0 +1,31 @@
+# Retrieve commits for a developer over the last 6 months
+
+import requests
+import datetime
+ 
+# Calculate the date 6 months ago
+date_six_months_ago = (datetime.datetime.now() - datetime.timedelta(6*365/12)).isoformat()
+ 
+# The GitHub username of the developer
+developer_username = 'developer_username'
+ 
+# The repository
+repo = 'spUK2020/Sarah-e-Shop'
+ 
+# The API URL
+url = f'https://api.github.com/repos/{repo}/commits?since={date_six_months_ago}'
+ 
+# Make the request
+response = requests.get(url)
+ 
+# Parse the JSON response
+commits = response.json()
+ 
+# Filter the commits to those made by the developer
+developer_commits = [commit for commit in commits if commit['commit']['author']['name'] == developer_username]
+ 
+# Print the commits
+for commit in developer_commits:
+    print(f"Commit message: {commit['commit']['message']}")
+    print(f"Date: {commit['commit']['author']['date']}")
+    print()
