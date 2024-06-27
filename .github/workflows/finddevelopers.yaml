@@ -1,0 +1,36 @@
+### in python ###
+import requests
+import json
+
+def get_org_members(org_name):
+    url = f"https://api.github.com/orgs/{org_name}/members"
+    response = requests.get(url)
+    if response.status_code == 200:
+        members = json.loads(response.text)
+        for member in members:
+            print(f"Username: {member['login']}, Profile URL: {member['html_url']}")
+    else:
+        print(f"Error: {response.status_code}")
+
+get_org_members('Your_Org_Name')  # Replace 'Your_Org_Name' with the name of the organization
+
+####### in C#     ##############
+Install-Package Octokit
+
+using Octokit;
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
+        var members = await github.Organization.Member.GetAll("Your_Org_Name");  // Replace 'Your_Org_Name' with the name of the organization
+
+        foreach (var member in members)
+        {
+            Console.WriteLine(member.Login);
+        }
+    }
+}
